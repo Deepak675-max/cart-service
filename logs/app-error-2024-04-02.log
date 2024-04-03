@@ -1,0 +1,42 @@
+{
+  status: '422',
+  path: '\\controllers\\cart\\cart.controller.js',
+  level: 'error',
+  message: '"product.unit" is required',
+  timestamp: '2024-04-02 13:54:19'
+}
+{
+  status: '422',
+  path: '\\controllers\\cart\\cart.controller.js',
+  level: 'error',
+  message: '"product.image" is not allowed',
+  timestamp: '2024-04-02 13:56:08'
+}
+{
+  status: undefined,
+  path: '\\controllers\\cart\\cart.controller.js',
+  level: 'error',
+  message: 'quantity is not defined',
+  timestamp: '2024-04-02 13:56:54'
+}
+{
+  status: '422',
+  path: '\\controllers\\cart\\cart.controller.js',
+  level: 'error',
+  message: '"cartId" is not allowed',
+  timestamp: '2024-04-02 14:14:37'
+}
+{
+  status: undefined,
+  path: '\\controllers\\cart\\cart.controller.js',
+  level: 'error',
+  message: 'Assignment to constant variable.',
+  timestamp: '2024-04-02 14:23:51'
+}
+{
+  status: undefined,
+  path: '\\controllers\\cart\\cart.controller.js',
+  level: 'error',
+  message: 'Assignment to constant variable.',
+  timestamp: '2024-04-02 14:40:22'
+}

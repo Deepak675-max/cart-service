@@ -1,0 +1,7 @@
+{
+  status: undefined,
+  path: '\\controllers\\cart\\cart.controller.js',
+  level: 'error',
+  message: "Cannot read properties of undefined (reading 'validateAsync')",
+  timestamp: '2024-04-03 09:44:59'
+}
