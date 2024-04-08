@@ -1,28 +1,36 @@
 const amqplib = require("amqplib");
 const CartService = require("../../services/cart/cart.service");
-const { CART_QUEUE, ORDER_QUEUE, PRODUCT_QUEUE } = require("../../config/index");
+const { CART_QUEUE, ORDER_CART_QUEUE, CART_PRODUCT_QUEUE } = require("../../config/index");
+
+const { logger } = require("../error_logger/winston");
+
+let channel, connection;
 
 const connectToMessageBroker = async () => {
-    const connection = await amqplib.connect('amqp://localhost');
-    const channel = await connection.createChannel();
-    await channel.assertQueue(CART_QUEUE);
-    return { channel, connection };
+    try {
+        connection = await amqplib.connect('amqp://localhost');
+        channel = await connection.createChannel();
+        await channel.assertQueue(CART_QUEUE);
+    } catch (error) {
+        console.log(error);
+        logger.error(error.message, { status: error.status, path: __filename });
+        throw error;
+    }
 }
 
-const consumeMessage = (channel) => {
-    channel.consume(CART_QUEUE, async (msg) => {
-        const payload = JSON.parse(msg.content.toString());
-        const cartServiceInstance = new CartService();
-        // Retrieve data based on event
-        const serviceResponse = await cartServiceInstance.SubscribeEvents(payload);
-        // Send service response
-        if (serviceResponse) {
-            if (payload.service == "Order")
-                channel.sendToQueue(ORDER_QUEUE, Buffer.from(JSON.stringify(serviceResponse)));
-            if (payload.service == "Product")
-                channel.sendToQueue(PRODUCT_QUEUE, Buffer.from(JSON.stringify(serviceResponse)));
-        }
-    }, { noAck: true });
+const consumeMessage = () => {
+    try {
+        channel.consume(CART_QUEUE, async (msg) => {
+            const payload = JSON.parse(msg.content.toString());
+            const cartServiceInstance = new CartService();
+            // Perform action based on event
+            await cartServiceInstance.SubscribeEvents(payload);
+        }, { noAck: true });
+    } catch (error) {
+        console.log(error);
+        logger.error(error.message, { status: error.status, path: __filename });
+        throw error;
+    }
 }
 
 module.exports = {

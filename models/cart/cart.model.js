@@ -10,7 +10,7 @@ const cartSchema = new Schema({
                 _id: { type: String, require: true },
                 name: { type: String },
                 desciption: { type: String },
-                image: { type: String },
+                thumbnailImage: { type: String },
                 category: { type: String },
                 price: { type: Number },
             },

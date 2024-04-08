@@ -58,6 +58,8 @@ class CartService {
 
             if (!cart) throw httpErrors.NotFound('Cart not found');
 
+            if (cart.items?.length <= 0) throw httpErrors.NotFound('Cart is Empty');
+
             let cartItems = cart.items;
 
             cartItems = cartItems.filter(item => item.product._id.toString() != productId);
@@ -82,7 +84,6 @@ class CartService {
 
             await cart.save();
 
-            return cart;
         } catch (error) {
             throw error;
         }
@@ -117,16 +118,12 @@ class CartService {
 
     async SubscribeEvents(payload) {
 
-        const { userId, event } = payload;
+        const { data, event } = payload;
 
         switch (event) {
-            case 'GET_CART':
-                const cart = await this.getCart(userId);
-                const subTotal = await this.getCartItemsSubTotal(cart.items);
-                return { cart, subTotal };
-                break;
             case 'DELETE_CART_ITEMS':
-                await this.deleteCart(userId);
+                await this.deleteCart(data);
+                console.log("Cart Deleted SuccessFully");
                 break;
             default:
                 break;

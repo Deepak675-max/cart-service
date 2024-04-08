@@ -19,9 +19,9 @@ cartServiceBackendApp.use(express.json());
 cartServiceBackendApp.use(express.urlencoded({ extended: true }));
 cartServiceBackendApp.use(express.static(path.join(__dirname, 'public')));
 
-connectToMessageBroker().then(async (data) => {
-    consumeMessage(data.channel);
-});
+// connectToMessageBroker().then(() => {
+//     consumeMessage();
+// });
 
 const cartServiceRoutes = require("./routes/cart/cart.routes");
 cartServiceBackendApp.use("/api", cartServiceRoutes);
@@ -51,6 +51,8 @@ const port = APP_PORT;
 
 server.listen(port, async () => {
     console.log("Cart Service is running on the port " + port)
+    await connectToMessageBroker();
+    consumeMessage();
 })
 
 

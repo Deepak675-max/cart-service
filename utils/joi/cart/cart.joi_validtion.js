@@ -5,7 +5,7 @@ const addItemInCartSchema = joi.object({
         _id: joi.string().trim().required(),
         name: joi.string().trim().required(),
         description: joi.string().trim().required(),
-        image: joi.string().trim().required(),
+        thumbnailImage: joi.string().trim().required(),
         category: joi.string().trim().required(),
         price: joi.string().trim().required(),
     }),
