@@ -3,12 +3,26 @@ const joiCart = require('../../utils/joi/cart/cart.joi_validtion');
 const CartModel = require("../../models/cart/cart.model");
 const { logger } = require("../../utils/error_logger/winston");
 const CartService = require("../../services/cart/cart.service");
+const { makeAxiosGetRequest } = require('../../utils/common');
+const { PRODUCT_SERVICE_BASE_URL, JWT_ACCESS_TOKEN_HEADER } = require('../../config');
 
 const cartService = new CartService();
 
 const addItemInCart = async (req, res, next) => {
     try {
         const cartItemDetails = await joiCart.addItemInCartSchema.validateAsync(req.body);
+
+        const headers = {
+            Cookie: `access-token=${req.cookies[JWT_ACCESS_TOKEN_HEADER]}`
+        }
+
+        const productId = cartItemDetails.product._id;
+
+        const { product } = await makeAxiosGetRequest(`${PRODUCT_SERVICE_BASE_URL}/api/get-product/${productId}`, headers).catch(error => {
+            throw httpErrors.NotFound('product does not exist');
+        });
+
+        if (product.unit === 0) throw httpErrors.NotFound("Item is out of stock");
 
         const cart = await cartService.addProductInCart(cartItemDetails.product, req.payloadData.userId);
 

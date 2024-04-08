@@ -11,5 +11,6 @@ module.exports = {
     DEFAULT_LIMIT: process.env.DEFAULT_LIMIT,
     DEFAULT_SORT_BY: process.env.DEFAULT_SORT_BY,
     DEFAULT_SORT_ORDER: process.env.DEFAULT_SORT_ORDER,
-    CART_QUEUE: "cart_queue"
+    CART_QUEUE: "cart_queue",
+    PRODUCT_SERVICE_BASE_URL: process.env.PRODUCT_SERVICE_BASE_URL,
 };

@@ -105,6 +105,12 @@ class CartService {
         const cart = await CartModel.findOne({
             userId: userId
         });
+        if (!cart) {
+            return await CartModel.create({
+                userId: userId,
+                items: []
+            })
+        }
         return cart;
     }
 
